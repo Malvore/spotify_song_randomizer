@@ -1,34 +1,35 @@
-import spotipy  
-from spotipy.oauth2 import SpotifyOAuth  
-  
-# Step 1: Define your API credentials and redirect URI
-client_id = "56a3c8c6668247c48bf88e5c6f31bfc7"
-client_secret = "9f6cb8d1d303445495f6ac21ddea3896"
-redirect_uri = "http://localhost:8888/callback"  # Make sure this matches what you set in the Spotify dashboard
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+from dotenv import load_dotenv
+import os
+import random
 
-# Step 2: Create a SpotifyOAuth object
-sp_oauth = SpotifyOAuth(client_id=client_id,
-                        client_secret=client_secret,
-                        redirect_uri=redirect_uri,
-                        scope="user-library-read")  # Adjust scope based on the access you need
+# Load environment variables from .env file
+load_dotenv("/home/aaron/spotify_randomizer_app/spotify.env")
 
-# Step 3: Get the access token and refresh token
-token_info = sp_oauth.get_access_token(as_dict=False)
+# Create a SpotifyOAuth object and authenticate
+sp_oauth = SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIENT_ID"),
+                        client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
+                        redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
+                        scope="user-library-read")
 
-# Step 4: Extract the access token
-access_token = token_info['access_token']
+# Get the access token
+access_token = sp_oauth.get_access_token(as_dict=False)
 
-# Step 5: Use the access token to interact with the Spotify API
+# Use the access token to create a Spotify API client
 spotify = spotipy.Spotify(auth=access_token)
 
-artist_name = []
-track_name = []
-popularity = []
-track_id = []
-for i in range(0,10000,50):
-    track_results = sp.search(q='year:2018', type='track', limit=50,offset=i)
-    for i, t in enumerate(track_results['tracks']['items']):
-        artist_name.append(t['artists'][0]['name'])
-        track_name.append(t['name'])
-        track_id.append(t['id'])
-        popularity.append(t['popularity'])
+# Function to select a random song
+def select_random_song():
+    year = random.randint(2000, 2023)  # Random year
+    result = spotify.search(q=f'year:{year}', type='track', limit=1, offset=random.randint(0, 1000))
+    
+    if result['tracks']['items']:
+        track = result['tracks']['items'][0]
+        print(f"Playing '{track['name']}' by {track['artists'][0]['name']}")
+        print(f"Listen on Spotify: {track['external_urls']['spotify']}")
+    else:
+        print("No track found. Try again.")
+
+# Call the function to select and display a random song
+select_random_song()
