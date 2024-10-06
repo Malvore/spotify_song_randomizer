@@ -23,26 +23,38 @@ spotify = spotipy.Spotify(auth=access_token)
 def select_random_song_by_decade_or_genre():
     # Present options to the user in a clearer way
     print("How would you like to search for a random song?")
-    print("1. By Decade (1940s and onward)")
+    print("1. By Year")
     print("2. By Genre")
 
     # Get user input for decade or genre choice
     try:
-        choice = int(input("Enter 1 for Decade or 2 for Genre: ").strip())
+        choice = int(input("Enter 1 for year or 2 for genre: ").strip())
     except ValueError:
         print("Invalid input! Please enter a number (1 or 2).")
         return
 
     if choice == 1:
-        # Show available decades and choose one
-        decades = ['1940', '1950', '1960', '1970', '1980', '1990', '2000', '2010', '2020']
-        print(f"Available decades: {', '.join([f'{d}s' for d in decades])}")
-        
-        # Randomly select a decade and a year from that decade
-        selected_decade = random.choice(decades)
-        year = random.randint(int(selected_decade), int(selected_decade) + 9)
-        print(f"Searching for a random track from the {selected_decade}s...")
-        result = spotify.search(q=f'year:{year}', type='track', limit=1, offset=random.randint(0, 1000))
+        # Show available years and choose one
+        available_years = range(1940,99999)
+        print(f"Available years: {min(available_years)} to present ")
+
+        #get year input from user
+        year_input = input("Choose a year: ")
+
+        #convert to an integer
+        try:
+            selected_year = int(year_input)
+
+            if selected_year not in available_years:
+                print(f"Please enter a valid year between {available_years} and now ")    
+
+            else:
+                print(f"Searching for a random track from the {selected_year}s...")
+                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 10000))
+
+        except ValueError:
+            print("Invalid input Please enter a valid year.")
+
 
     elif choice == 2:
         # Show available genres and choose one
