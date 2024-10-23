@@ -50,10 +50,10 @@ def select_random_song_by_decade_or_genre():
 
             else:
                 print(f"Searching for a random track from the {selected_year}s...")
-                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 10000))
+                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 1000))
 
         except ValueError:
-            print("Invalid input Please enter a valid year.")
+            print("Invalid input. Please enter a valid year.")
 
 
     elif choice == 2:
@@ -61,10 +61,24 @@ def select_random_song_by_decade_or_genre():
         genres = ['pop', 'rock', 'jazz', 'classical', 'hip-hop', 'country', 'blues', 'reggae', 'electronic', 'metal']
         print(f"Available genres: {', '.join(genres)}")
         
-        # Randomly select a genre
-        selected_genre = random.choice(genres)
-        print(f"Searching for a random {selected_genre} track...")
-        result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 1000))
+        #get genre input from user
+        genre_input = input("Choose from the available genres: ")
+
+        #convert to a string
+        try:
+            selected_genre = str(genre_input)
+
+            if selected_genre not in genres:
+                print("Please enter an available genre from the list")
+
+            else:
+                # Randomly select a genre
+                selected_genre = random.choice(genres)
+                print(f"Searching for a random {selected_genre} track...")
+                result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 1000))
+
+        except ValueError:
+            print("Invalid input. Please enter a valid genre")
 
     else:
         print("Invalid choice! Please enter 1 or 2.")
