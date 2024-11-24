@@ -5,7 +5,7 @@ import os
 import random
 
 # Load environment variables from .env file
-load_dotenv("/home/aaron/spotify_randomizer_app/spotify.env")
+load_dotenv("/home/aaron/local-python-files/spotify_song_randomizer/spotify.env")
 
 # Create a SpotifyOAuth object and authenticate
 sp_oauth = SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIENT_ID"),
@@ -73,7 +73,6 @@ def select_random_song_by_decade_or_genre():
 
             else:
                 # Randomly select a genre
-                selected_genre = random.choice(genres)
                 print(f"Searching for a random {selected_genre} track...")
                 result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 1000))
 
