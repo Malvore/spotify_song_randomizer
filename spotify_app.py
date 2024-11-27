@@ -3,6 +3,14 @@ from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
 import os
 import random
+import datetime
+
+#set current date and time
+today = datetime.date.today()
+current_year = today.year
+
+#uncomment below to print the current year
+#print(current_year)
 
 # Load environment variables from .env file
 load_dotenv("/home/aaron/local-python-files/spotify_song_randomizer/spotify.env")
@@ -35,7 +43,7 @@ def select_random_song_by_decade_or_genre():
 
     if choice == 1:
         # Show available years and choose one
-        available_years = range(1940,99999)
+        available_years = range(1940,current_year + 1)
         print(f"Available years: {min(available_years)} to present ")
 
         #get year input from user
@@ -49,8 +57,8 @@ def select_random_song_by_decade_or_genre():
                 print(f"Please enter a valid year between {available_years} and now ")    
 
             else:
-                print(f"Searching for a random track from the {selected_year}s...")
-                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 1000))
+                print(f"Searching for a random track from {selected_year}...")
+                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 100))
 
         except ValueError:
             print("Invalid input. Please enter a valid year.")
@@ -74,7 +82,7 @@ def select_random_song_by_decade_or_genre():
             else:
                 # Randomly select a genre
                 print(f"Searching for a random {selected_genre} track...")
-                result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 1000))
+                result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 100))
 
         except ValueError:
             print("Invalid input. Please enter a valid genre")
