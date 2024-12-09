@@ -12,7 +12,7 @@ current_year = today.year
 #uncomment below to print the current year
 #print(current_year)
 
-# Load environment variables from .env file
+#Load environment variables from .env file
 load_dotenv("/home/aaron/local-python-files/spotify_song_randomizer/spotify.env")
 
 # Create a SpotifyOAuth object and authenticate
@@ -21,7 +21,7 @@ sp_oauth = SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIENT_ID"),
                         redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
                         scope="user-library-read")
 
-# Get the access token
+#Get the access token
 access_token = sp_oauth.get_access_token(as_dict=False)
 
 # Use the access token to create a Spotify API client
@@ -33,6 +33,9 @@ def select_random_song_by_decade_or_genre():
     print("How would you like to search for a random song?")
     print("1. By Year")
     print("2. By Genre")
+
+    #avoid unbound error
+    result = None  
 
     # Get user input for decade or genre choice
     try:
@@ -92,7 +95,7 @@ def select_random_song_by_decade_or_genre():
         return
 
     # Display the selected track if a result is found
-    if result['tracks']['items']:
+    if result and 'tracks' in result and result['tracks']['items']:
         track = result['tracks']['items'][0]
         track_name = track['name']
         artist_name = track['artists'][0]['name']
@@ -106,7 +109,7 @@ def select_random_song_by_decade_or_genre():
         print(f"Duration: {track_duration // 60}:{track_duration % 60:02d} minutes")
         print(f"Listen on Spotify: {track_url}")
     else:
-        print("No track found. Try again.")
+        print("No track found or invalid response. Try again.")
 
     # Ask if the user wants to randomize again
     retry = input("\nWould you like to search for another random song? (yes/no): ").strip().lower()
