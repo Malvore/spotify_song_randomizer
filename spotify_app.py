@@ -34,7 +34,7 @@ def select_random_song_by_decade_or_genre():
     print("1. By Year")
     print("2. By Genre")
 
-    #avoid unbound error
+    #Avoid unbound error by setting result variable to None.
     result = None  
 
     # Get user input for decade or genre choice
@@ -69,7 +69,9 @@ def select_random_song_by_decade_or_genre():
 
     elif choice == 2:
         # Show available genres and choose one
-        genres = ['pop', 'rock', 'jazz', 'classical', 'hip-hop', 'country', 'blues', 'reggae', 'electronic', 'metal']
+        genres = [
+                'pop', 'funk', 'alternative', 'dance', 'rock', 'jazz', 'classical', 
+                'hip-hop', 'country', 'blues', 'reggae', 'electronic', 'metal']
         print(f"Available genres: {', '.join(genres)}")
         
         #get genre input from user
