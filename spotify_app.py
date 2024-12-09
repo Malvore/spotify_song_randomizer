@@ -61,7 +61,7 @@ def select_random_song_by_decade_or_genre():
 
             else:
                 print(f"Searching for a random track from {selected_year}...")
-                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 100))
+                result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 50))
 
         except ValueError:
             print("Invalid input. Please enter a valid year.")
@@ -87,7 +87,7 @@ def select_random_song_by_decade_or_genre():
             else:
                 # Randomly select a genre
                 print(f"Searching for a random {selected_genre} track...")
-                result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 100))
+                result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 50))
 
         except ValueError:
             print("Invalid input. Please enter a valid genre")
