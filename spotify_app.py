@@ -127,10 +127,10 @@ def select_random_song_by_decade_or_genre():
 
         # Ask if the user wants to randomize again
         retry = input("\nWould you like to search for another random song? (yes/no): ").strip().lower()
-        if retry == 'yes':
-            select_random_song_by_decade_or_genre()
-        else:
+        if retry == 'no' or retry == "exit":
             print("Goodbye!")
+            break
+        
 
 # Call the function to select and display a random song
 select_random_song_by_decade_or_genre()
