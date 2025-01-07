@@ -30,10 +30,11 @@ spotify = spotipy.Spotify(auth=access_token)
 # Function to select a random song based on the user’s choice (decade or genre)
 def select_random_song_by_decade_or_genre():
     while True:
-        # Present options to the user in a clearer way
+        #Print user options 
         print("How would you like to search for a random song?")
         print("1. By Year")
         print("2. By Genre")
+        print("Type 'exit' anytime to exit the application.")
 
         #Avoid unbound error by setting result variable to None.
         result = None  
@@ -51,7 +52,7 @@ def select_random_song_by_decade_or_genre():
             continue 
 
         if choice == 1:
-            # Show available years and choose one
+            #Show available years.
             available_years = range(1940,current_year + 1)
             print(f"Available years: {min(available_years)} to present ")
 
@@ -61,7 +62,7 @@ def select_random_song_by_decade_or_genre():
                 print("Goodbye!")
                 break
 
-            #convert to an integer
+            #Convert the choice to an integer, confirm user picks from available years
             try:
                 selected_year = int(year_input)
 
@@ -70,14 +71,14 @@ def select_random_song_by_decade_or_genre():
 
                 else:
                     print(f"Searching for a random track from {selected_year}...")
-                    result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 50))
+                    result = spotify.search(q=f'year:{selected_year}', type='track', limit=1, offset=random.randint(0, 25))
 
             except ValueError:
                 print("Invalid input. Please enter a valid year.")
 
 
         elif choice == 2:
-            # Show available genres and choose one
+            #Show available genres.
             genres = [
                     'pop', 'funk', 'alternative', 'dance', 'rock', 'jazz', 'classical', 
                     'hip-hop', 'country', 'blues', 'reggae', 'electronic', 'metal']
@@ -89,7 +90,7 @@ def select_random_song_by_decade_or_genre():
                 print("Goodbye!")
                 break
 
-            #convert to a string
+            #Convert genre input to a string, confirm user picks from genre list.
             try:
                 selected_genre = str(genre_input)
 
@@ -97,9 +98,8 @@ def select_random_song_by_decade_or_genre():
                     print("Please enter an available genre from the list")
 
                 else:
-                    # Randomly select a genre
                     print(f"Searching for a random {selected_genre} track...")
-                    result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 50))
+                    result = spotify.search(q=f'genre:"{selected_genre}"', type='track', limit=1, offset=random.randint(0, 25))
 
             except ValueError:
                 print("Invalid input. Please enter a valid genre")
