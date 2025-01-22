@@ -1,3 +1,4 @@
+#Import neccessary libraries.
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
@@ -5,32 +6,32 @@ import os
 import random
 import datetime
 
-#set current date and time
+#Set current date and time.
 today = datetime.date.today()
 current_year = today.year
 
-#uncomment below to print the current year
+#Uncomment below to print the current year.
 #print(current_year)
 
-#Load environment variables from .env file
+#Load environment variables from .env file.
 load_dotenv("/home/aaron/local-python-files/spotify_song_randomizer/spotify.env")
 
-# Create a SpotifyOAuth object and authenticate
+# Create a SpotifyOAuth object and authenticate.
 sp_oauth = SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIENT_ID"),
                         client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
                         redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
                         scope="user-library-read")
 
-#Get the access token
+#Get the access token.
 access_token = sp_oauth.get_access_token(as_dict=False)
 
-# Use the access token to create a Spotify API client
+# Use the access token to create a Spotify API client.
 spotify = spotipy.Spotify(auth=access_token)
 
-# Function to select a random song based on the user’s choice (decade or genre)
+#Function to select a random song based on the user’s choice (decade or genre).
 def select_random_song_by_decade_or_genre():
     while True:
-        #Print user options 
+        #Print user options.
         print("How would you like to search for a random song?")
         print("1. By Year")
         print("2. By Genre")
@@ -62,7 +63,7 @@ def select_random_song_by_decade_or_genre():
                 print("Goodbye!")
                 break
 
-            #Convert the choice to an integer, confirm user picks from available years
+            #Convert the choice to an integer, confirm user picks from available years.
             try:
                 selected_year = int(year_input)
 
@@ -108,7 +109,7 @@ def select_random_song_by_decade_or_genre():
             print("Invalid choice! Please enter 1 or 2.")
             continue
 
-        # Display the selected track if a result is found
+        #Display the selected track if a result is found.
         if result and 'tracks' in result and result['tracks']['items']:
             track = result['tracks']['items'][0]
             track_name = track['name']
@@ -117,7 +118,7 @@ def select_random_song_by_decade_or_genre():
             track_duration = track['duration_ms'] // 1000  # duration in seconds
             track_url = track['external_urls']['spotify']
 
-            # Display song details
+            #Display song details.
             print(f"\nNow Playing: '{track_name}' by {artist_name}")
             print(f"Album: {album_name}")
             print(f"Duration: {track_duration // 60}:{track_duration % 60:02d} minutes")
@@ -125,14 +126,14 @@ def select_random_song_by_decade_or_genre():
         else:
             print("No track found or invalid response. Try again.")
 
-        # Ask if the user wants to randomize again
+        #Ask if the user wants to randomize again.
         retry = input("\nWould you like to search for another random song? (yes/no): ").strip().lower()
         if retry == 'no' or retry == "exit":
             print("Goodbye!")
             break
         
 
-# Call the function to select and display a random song
+#Call the function to select and display a random song.
 select_random_song_by_decade_or_genre()
 
 
