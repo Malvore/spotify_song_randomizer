@@ -14,7 +14,7 @@ current_year = today.year
 #print(current_year)
 
 #Load environment variables from .env file.
-load_dotenv("/home/aaron/local-python-files/spotify_song_randomizer/spotify.env")
+load_dotenv() 
 
 # Create a SpotifyOAuth object and authenticate.
 sp_oauth = SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIENT_ID"),
